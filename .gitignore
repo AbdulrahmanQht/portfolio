@@ -1,0 +1,27 @@
+# Dependencies and generated Astro output
+node_modules/
+dist/
+.astro/
+.vercel/
+.netlify/
+
+# Local environment and editor files
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Project source material and superseded prototype (not website runtime files)
+/Abdulrahman_Alqahtani CV.pdf
+/INSTRUCTIONS.md
+/Portfolio Website Plan.md
+/portfolio_v2.html
+/content/source-notes/
+
+# Temporary validation/export files
+tmp/
+*.log

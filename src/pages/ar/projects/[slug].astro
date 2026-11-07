@@ -1,0 +1,7 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import { projects, profile } from '../../../content/site';
+export function getStaticPaths() { return projects.filter(p => p.featured).map(project => ({ params: { slug: project.slug }, props: { project } })); }
+const { project } = Astro.props;
+---
+<Layout locale="ar" title={`${project.title} | ${profile.shortName}`}><section class="case-hero section-wrap"><a class="back-link" href="/ar/#projects">→ العودة إلى ملفات المشاريع</a><span class="eyebrow">{project.eyebrow}</span><h1>{project.title}</h1><p class="lede">{project.description}</p><div class="tags">{project.stack.map(item => <span>{item}</span>)}</div><div class="hero-links"><a class="button button-primary" href={project.repo} target="_blank" rel="noreferrer">Repository ↗</a>{project.demo && <a class="text-link" href={project.demo} target="_blank" rel="noreferrer">Live demo ↗</a>}</div></section><section class="case-body section-wrap">{project.sections?.map(section => <article><span class="section-kicker">{section.label}</span><h2>{section.label}</h2><p>{section.text}</p></article>)}</section></Layout>

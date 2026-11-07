@@ -1,0 +1,34 @@
+---
+import '../styles/global.css';
+import { profile, copy, type Locale } from '../content/site';
+const { locale = 'en', title = `${profile.shortName} | ${profile.role}` } = Astro.props;
+const t = copy[locale as Locale];
+const isArabic = locale === 'ar';
+const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|ar)/, '') || '/';
+const alternate = `/${isArabic ? 'en' : 'ar'}${pathWithoutLocale}`;
+---
+<!doctype html>
+<html lang={locale} dir={isArabic ? 'rtl' : 'ltr'}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={t.summary} />
+    <title>{title}</title>
+    <script is:inline>try{const v=localStorage.getItem('theme');document.documentElement.dataset.theme=v||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}catch(e){}</script>
+  </head>
+  <body>
+    <div class="paper-grain" aria-hidden="true"></div>
+    <header class="site-header">
+      <a class="brand" href={`/${locale}/`} aria-label={profile.shortName}>{profile.shortName}<span class="brand-mark">/</span></a>
+      <nav aria-label="Primary navigation">
+        <a href={`/${locale}/#profile`}>{t.nav.profile}</a><a href={`/${locale}/#skills`}>{t.nav.skills}</a><a href={`/${locale}/#projects`}>{t.nav.projects}</a><a href={`/${locale}/#experience`}>{t.nav.experience}</a><a href={`/${locale}/#contact`}>{t.nav.contact}</a>
+      </nav>
+      <div class="header-actions"><a class="lang-link" href={alternate}>{isArabic ? 'EN' : 'عربي'}</a><button class="theme-toggle" type="button" aria-label="Toggle theme" data-theme-toggle>◐</button></div>
+    </header>
+    <main><slot /></main>
+    <footer class="site-footer"><span>© {new Date().getFullYear()} {profile.shortName}</span><span>{profile.location}</span><a href={alternate}>{isArabic ? 'English' : 'العربية'}</a></footer>
+    <script is:inline>
+      document.querySelector('[data-theme-toggle]')?.addEventListener('click',()=>{const n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;localStorage.setItem('theme',n)});
+    </script>
+  </body>
+</html>

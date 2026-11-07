@@ -1,0 +1,10 @@
+---
+const { project, locale, labels, projectsIndex = 0 } = Astro.props;
+---
+<article class:list={['project-card', { featured: project.featured }]}>
+  <div class="card-top"><span class="eyebrow">{project.eyebrow}</span><span class="case-number">CASE / {String(projectsIndex ?? '').padStart(2, '0')}</span></div>
+  <h3>{project.title}</h3><p>{project.description}</p>
+  <div class="tags">{project.stack.map((item: string) => <span>{item}</span>)}</div>
+  {project.result && <p class="result"><strong>Result note:</strong> {project.result}</p>}
+  <div class="card-links"><a href={`/${locale}/projects/${project.slug}`}>{labels.viewCase}</a><a href={project.repo} target="_blank" rel="noreferrer">{labels.viewRepo} ↗</a>{project.demo && <a href={project.demo} target="_blank" rel="noreferrer">{labels.liveDemo} ↗</a>}</div>
+</article>

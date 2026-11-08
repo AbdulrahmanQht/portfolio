@@ -1,6 +1,7 @@
 # Dependencies and generated Astro output
 node_modules/
 dist/
+content/
 .astro/
 .vercel/
 .netlify/
@@ -15,12 +16,6 @@ Thumbs.db
 .vscode/
 *.swp
 
-# Project source material and superseded prototype (not website runtime files)
-/Abdulrahman_Alqahtani CV.pdf
-/INSTRUCTIONS.md
-/Portfolio Website Plan.md
-/portfolio_v2.html
-/content/source-notes/
 
 # Temporary validation/export files
 tmp/

@@ -1,13 +1,43 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import { profile, skills, experience, projects, copy } from '../../content/site';
-const t = copy.ar;
+import { profile, skills, projects, copy, experienceAr, skillGroupLabels } from '../../content/site';
+const featured = projects.filter(project => project.featured);
+const lead = featured[0];
+const supporting = featured.slice(1);
+const archive = projects.filter(project => !project.featured);
+const skillItems = Object.values(skills).flat();
+const marqueeItems = [...skillItems.slice(0, 8), ...skills['AI / Machine Learning'].slice(0, 8)];
+const arProjectCopy: Record<string, { eyebrow: string; description: string }> = {
+  'tracepilot-ai': { eyebrow: 'مميز / أنظمة متعددة الوكلاء', description: 'منصة متعددة الوكلاء تدقق في آثار تنفيذ وكلاء البرمجة باستخدام التحقق الأعمى من النتائج وتتبع الموثوقية عبر الحالة.' },
+  'quantum-hybrid-defect-detector': { eyebrow: 'مميز / مشروع التخرج', description: 'تطبيق متكامل لتصنيف العيوب الصناعية يقارن بين مسارات الاستدلال باستخدام الشبكات العصبية الالتفافية (CNN) والهجينة الكمومية-الكلاسيكية.' },
+  'vpaa-gate': { eyebrow: 'مميز / مشروع التدريب التعاوني', description: 'منصة جامعية داخلية لإدارة بيانات الكليات باستخدام ASP.NET MVC 5 وOracle وDapper وبنية متعددة الطبقات.' },
+  'brain-tumor-detection-pipeline': { eyebrow: 'ملف مشروع', description: 'خط أنابيب منفصل للتصوير بالرنين المغناطيسي يستخدم YOLOv11 مع CBAM لتحديد موضع الورم، ونماذج تصنيف بالتعلم بالنقل لتشخيص مناطق الاهتمام.' },
+  'financial-fraud-detection': { eyebrow: 'ملف مشروع', description: 'دراسة مقارنة لمصنفات الاحتيال في معاملات غير متوازنة بدرجة كبيرة، مع تحسين مقياس F2 لتقليل حالات الاحتيال التي لا يتم اكتشافها.' },
+  'parallel-a-star': { eyebrow: 'ملف مشروع', description: 'مقارنة بين البحث التسلسلي والمتوازي بخوارزمية A* باستخدام استراتيجيات المعالجة المتعددة لأنماط مختلفة من أعباء العمل.' },
+  'plant-disease': { eyebrow: 'ملف مشروع', description: 'خط أنابيب تقليدي للرؤية الحاسوبية لاكتشاف أعراض أمراض النباتات باستخدام اللون والملمس والتجزئة والعمليات المورفولوجية.' },
+  'library-management-system': { eyebrow: 'ملف مشروع', description: 'مشروع مقرر دراسي يقارن بين تطبيق ويب باستخدام FastAPI وVue وPostgreSQL وتطبيق إجرائي بلغة C يعمل عبر سطر الأوامر.' }
+};
 ---
 <Layout locale="ar">
-  <section class="hero section-wrap" id="profile"><div class="hero-copy"><p class="eyebrow">ملف / 001 · متاح للتعاون</p><h1>{profile.name}</h1><p class="role">{profile.role}</p><p class="lede">{t.intro}</p><p class="summary">{t.summary}</p><div class="hero-links"><a class="button button-primary" href={profile.cv} download>{t.download} ↓</a><a class="text-link" href={`mailto:${profile.email}`}>Email ↗</a><a class="text-link" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a class="text-link" href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a></div></div><aside class="file-card"><span class="stamp">مُعتمد</span><div class="file-card-body"><span class="eyebrow">الموقع</span><strong>{profile.location}</strong><span class="eyebrow">مجالات التركيز</span><strong>Full-stack systems<br />Applied AI / ML</strong><span class="file-rule"></span><small>المعلومات مستندة إلى السيرة الذاتية والمستودعات العامة.</small></div></aside></section>
-  <section class="section-wrap" id="skills"><div class="section-heading"><span class="section-kicker">02 / STACK</span><h2>{t.labels.skills}</h2></div><div class="skills-grid">{Object.entries(skills).map(([group, items]) => <div class="skill-group"><h3>{group}</h3><div class="tags">{items.map(item => <span>{item}</span>)}</div></div>)}</div></section>
-  <section class="section-wrap" id="projects"><div class="section-heading"><span class="section-kicker">03 / PROJECTS</span><h2>{t.labels.projects}</h2><p>ثمانية مستودعات في أرشيف واحد. افتح ملفاً مميزاً لاستعراض المعمارية والأدلة.</p></div><div class="projects-grid">{projects.map((project, index) => <ProjectCard project={project} locale="ar" labels={{ viewCase: t.viewCase, viewRepo: t.viewRepo, liveDemo: t.liveDemo }} projectsIndex={index + 1} />)}</div></section>
-  <section class="section-wrap split-section" id="experience"><div><div class="section-heading"><span class="section-kicker">04 / EXPERIENCE</span><h2>{t.labels.experience}</h2></div><article class="timeline-card"><span class="eyebrow">{experience.period}</span><h3>{experience.title}</h3><p>{experience.organization}</p><ul>{experience.bullets.map(bullet => <li>{bullet}</li>)}</ul><a class="text-link" href={experience.link} target="_blank" rel="noreferrer">Project repository ↗</a></article></div><div class="education-card"><span class="eyebrow">{t.labels.education}</span><h3>Bachelor of Science in Computer Science</h3><p>{t.education}</p><span class="degree-note">سيتم إضافة تواريخ التعليم بعد تأكيد المالك.</span></div></section>
-  <section class="contact-section section-wrap" id="contact"><div><span class="section-kicker">05 / CONTACT</span><h2>{t.labels.contact}</h2><p>{t.contactText}</p></div><div class="contact-links"><a href={`mailto:${profile.email}`}><span>{t.labels.email}</span><strong>{profile.email}</strong></a><a href={profile.linkedin} target="_blank" rel="noreferrer"><span>LinkedIn</span><strong>/abdulrahmanqht ↗</strong></a><a href={profile.github} target="_blank" rel="noreferrer"><span>GitHub</span><strong>/AbdulrahmanQht ↗</strong></a></div></section>
+  <header class="hero" id="profile">
+    <div class="hero-sticker">متاح لفرص العمل بدوام كامل في المملكة العربية السعودية.</div>
+    <h1><span class="name-tag">عبدالرحمن</span></h1>
+    <p>مطور Full-Stack وAI/ML</p>
+    <p class="sub">{copy.ar.summary}</p>
+    <div class="hero-actions"><a class="btn" href={`mailto:${profile.email}`}>راسلني</a><a class="btn" href={profile.cv} download>{copy.ar.download}</a><a class="btn" href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a></div>
+  </header>
+
+  <div class="mq" aria-label="المهارات التقنية"><div>{marqueeItems.join(' ★ ')} ★ {marqueeItems.join(' ★ ')} ★ </div></div>
+
+  <section id="projects"><h2>أبرز <mark>الأعمال</mark></h2>
+    {lead && <article class="card feat"><div class="num">01</div><div><span class="tag">{arProjectCopy[lead.slug]?.eyebrow ?? lead.eyebrow}</span><h3>{lead.title}</h3><p>{arProjectCopy[lead.slug]?.description ?? lead.description}</p><div class="chips">{lead.stack.map(item => <span>{item}</span>)}</div><div class="card-links"><a href={`/ar/projects/${lead.slug}`}>فتح ملف المشروع ↗</a><a href={lead.repo} target="_blank" rel="noreferrer">GitHub ↗</a>{lead.demo && <a href={lead.demo} target="_blank" rel="noreferrer">نسخة تجريبية ↗</a>}</div></div></article>}
+    <div class="grid3 featured-grid">{supporting.map((project, index) => <article class="card project-block"><div class="project-number">0{index + 2}</div><span class="tag">{arProjectCopy[project.slug]?.eyebrow ?? project.eyebrow}</span><h3>{project.title}</h3><p>{arProjectCopy[project.slug]?.description ?? project.description}</p><div class="chips">{project.stack.map(item => <span>{item}</span>)}</div><div class="card-links"><a href={`/ar/projects/${project.slug}`}>فتح ملف المشروع ↗</a><a href={project.repo} target="_blank" rel="noreferrer">GitHub ↗</a></div></article>)}</div>
+    <h2 class="archive-title">أرشيف <mark>المشاريع</mark></h2><div class="grid3 archive-grid">{archive.map(project => <article class="card project-block"><span class="tag">{arProjectCopy[project.slug]?.eyebrow ?? project.eyebrow}</span><h3>{project.title}</h3><p>{arProjectCopy[project.slug]?.description ?? project.description}</p><div class="chips">{project.stack.map(item => <span>{item}</span>)}</div>{project.result && <p class="result"><strong>النتيجة:</strong> {project.result}</p>}<div class="card-links"><a href={project.repo} target="_blank" rel="noreferrer">GitHub ↖</a></div></article>)}</div>
+  </section>
+
+  <section id="experience"><h2>الخبرة <mark>والتعليم</mark></h2><div class="about"><article class="card about-primary"><span class="tag">{experienceAr.title}</span><h3>{experienceAr.organization}</h3><p class="experience-period">{experienceAr.period}</p><ul>{experienceAr.bullets.map(bullet => <li>{bullet}</li>)}</ul><a class="text-link" href="https://github.com/AbdulrahmanQht/VPAA-Gate" target="_blank" rel="noreferrer">عرض المشروع ↖</a></article><article class="card education-card"><span class="tag">التعليم</span><h3>بكالوريوس علوم الحاسب</h3><div class="education-meta"><p><span>الجامعة</span><strong>جامعة الإمام عبدالرحمن بن فيصل (IAU)</strong></p><p><span>مرتبة الشرف</span><strong>مرتبة الشرف الثانية</strong></p><p><span>المعدل</span><strong>4.44/5.00</strong></p></div></article></div></section>
+
+  <section id="skills"><h2>التقنيات <mark>التي أعمل بها</mark></h2><div class="stack-groups">{Object.entries(skills).map(([group, items]) => <div class="stack-group"><h3>{skillGroupLabels[group as keyof typeof skillGroupLabels] ?? group}</h3><div class="sk">{items.map(item => <span>{item}</span>)}</div></div>)}</div></section>
+
+  <section class="end" id="contact"><h2>لنصنع شيئًا مفيدًا.</h2><p>{copy.ar.contactText}</p><div class="contact-actions"><a class="btn" href={`mailto:${profile.email}`}>{profile.email}</a><a class="btn" href={profile.github} target="_blank" rel="noreferrer">GitHub ↗</a><a class="btn" href={profile.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a><a class="btn" href={profile.cv} download>تحميل السيرة الذاتية ↓</a></div></section>
 </Layout>

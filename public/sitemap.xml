@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://abdulrahmanqht.pages.dev/en/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://abdulrahmanqht.pages.dev/en/" />
+    <loc>https://abdulrahmanqht.pages.dev/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdulrahmanqht.pages.dev/" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://abdulrahmanqht.pages.dev/ar/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://abdulrahmanqht.pages.dev/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://abdulrahmanqht.pages.dev/" />
   </url>
   <url>
     <loc>https://abdulrahmanqht.pages.dev/ar/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://abdulrahmanqht.pages.dev/en/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://abdulrahmanqht.pages.dev/" />
     <xhtml:link rel="alternate" hreflang="ar" href="https://abdulrahmanqht.pages.dev/ar/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://abdulrahmanqht.pages.dev/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://abdulrahmanqht.pages.dev/" />
   </url>
   <url>
     <loc>https://abdulrahmanqht.pages.dev/en/projects/tracepilot-ai/</loc>

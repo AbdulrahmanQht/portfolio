@@ -5,7 +5,9 @@ const { locale = 'en', title = `${locale === 'ar' ? 'عبدالرحمن القح
 const t = copy[locale as Locale];
 const isArabic = locale === 'ar';
 const pathWithoutLocale = Astro.url.pathname.replace(/^\/(en|ar)/, '') || '/';
-const alternate = `/${isArabic ? 'en' : 'ar'}${pathWithoutLocale}`;
+const isHomepage = Astro.url.pathname === '/' || Astro.url.pathname === '/en/';
+const alternate = isHomepage ? (isArabic ? '/' : '/ar/') : `/${isArabic ? 'en' : 'ar'}${pathWithoutLocale}`;
+const homePath = isArabic ? '/ar/' : '/';
 const siteUrl = (Astro.site ?? Astro.url.origin).toString().replace(/\/$/, '');
 const canonicalUrl = `${siteUrl}${Astro.url.pathname}`;
 const alternateUrl = `${siteUrl}${alternate}`;
@@ -31,10 +33,13 @@ const personSchema = {
     <meta name="robots" content="index, follow" />
     <meta name="theme-color" content="#f4efe6" />
     <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang={locale} href={canonicalUrl} />
     <link rel="alternate" hreflang={isArabic ? 'en' : 'ar'} href={alternateUrl} />
-    <link rel="alternate" hreflang="x-default" href={`${siteUrl}/en${pathWithoutLocale}`} />
+    <link rel="alternate" hreflang="x-default" href={`${siteUrl}${isHomepage ? '/' : `/en${pathWithoutLocale}`}`} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={profile.shortName} />
     <meta property="og:locale" content={isArabic ? 'ar_SA' : 'en_US'} />
@@ -50,7 +55,7 @@ const personSchema = {
   <body>
     <a class="skip-link" href="#main-content">{isArabic ? 'تخطَّ إلى المحتوى' : 'Skip to content'}</a>
     <div class="w">
-      <header class="top"><a class="logo" href={`/${locale}/`} aria-label={isArabic ? 'عبدالرحمن القحطاني' : profile.shortName}>{isArabic ? 'عبدالرحمن القحطاني' : profile.shortName}</a><nav class="nav" aria-label={isArabic ? 'التنقل الرئيسي' : 'Primary navigation'}><a class="btn" href={`/${locale}/#projects`}>{t.nav.projects}</a><a class="btn" href={`/${locale}/#experience`}>{t.nav.experience}</a><a class="btn" href={`/${locale}/#skills`}>{t.nav.skills}</a><a class="btn" href={profile.cv} download>{t.download}</a><button class="btn" id="th" type="button" aria-label={isArabic ? 'تبديل المظهر' : 'Toggle theme'} data-theme-toggle>☾</button><a class="btn" id="lg" href={alternate}>{isArabic ? 'EN' : 'عربي'}</a></nav></header>
+      <header class="top"><a class="logo" href={homePath} aria-label={isArabic ? 'عبدالرحمن القحطاني' : profile.shortName}>{isArabic ? 'عبدالرحمن القحطاني' : profile.shortName}</a><nav class="nav" aria-label={isArabic ? 'التنقل الرئيسي' : 'Primary navigation'}><a class="btn" href={`${homePath}#projects`}>{t.nav.projects}</a><a class="btn" href={`${homePath}#experience`}>{t.nav.experience}</a><a class="btn" href={`${homePath}#skills`}>{t.nav.skills}</a><a class="btn" href={profile.cv} download>{t.download}</a><button class="btn" id="th" type="button" aria-label={isArabic ? 'تبديل المظهر' : 'Toggle theme'} data-theme-toggle>☾</button><a class="btn" id="lg" href={alternate}>{isArabic ? 'EN' : 'عربي'}</a></nav></header>
       <main id="main-content"><slot /></main>
       <footer class="site-footer"><span>© {new Date().getFullYear()} {profile.shortName}</span><span>{isArabic ? t.locationText : profile.location}</span><a href={`mailto:${profile.email}`}>{profile.email}</a><a href={alternate}>{isArabic ? 'English' : 'العربية'}</a></footer>
     </div>
